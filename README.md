@@ -1,3 +1,5 @@
+Minor updates to project since Rainforestnet hasn't updated the project in a few years. 
+
 # Crystal Reports Ninja
 This is a complete rewritten based on [Crystal-Reports-Exporter](https://github.com/rainforestnet/Crystal-Reports-Exporter#crystal-reports-exporter) in order to enhance code readability and maintainability.
 
