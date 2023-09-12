@@ -221,6 +221,8 @@ namespace CrystalReportsNinja
                     _reportDoc.ExportOptions.ExportFormatType = ExportFormatType.WordForWindows;
                 else if (_outputFormat.ToUpper() == "XLS")
                     _reportDoc.ExportOptions.ExportFormatType = ExportFormatType.Excel;
+                else if (_outputFormat.ToUpper() == "XLSX")
+                    _reportDoc.ExportOptions.ExportFormatType = ExportFormatType.ExcelWorkbook;
                 else if (_outputFormat.ToUpper() == "XLSDATA")
                     _reportDoc.ExportOptions.ExportFormatType = ExportFormatType.ExcelRecord;
                 else if (_outputFormat.ToUpper() == "ERTF")
