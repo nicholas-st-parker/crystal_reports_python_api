@@ -1,3 +1,4 @@
+"""import modules"""
 import subprocess
 from datetime import datetime, timedelta
 import os
@@ -5,8 +6,11 @@ import shutil
 from typing import List, Optional
 
 
-class CrystalReport:
-    def __init__(self,
+# Disable pylint warnings for too many arguments and too many instance attributes.
+# This is simply the amount of arguments that crystal reports ninja takes.
+class CrystalReport:  # pylint: disable=too-many-instance-attributes
+    """Class to run Crystal Reports via python subprocesses using Crystal Reports Ninja."""
+    def __init__(self,  # pylint: disable=too-many-arguments
                  report_file: str,
                  output_filename: Optional[str] = None,
                  report_format: Optional[str] = None,
@@ -31,6 +35,7 @@ class CrystalReport:
         self.create_log = create_log
 
     def run_crystal_report(self):
+        """Run the Crystal Report using Crystal Reports Ninja using the provided parameters."""
         command = [
             r'.\CrystalReportsNinja\bin\CrystalReportsNinja.exe',
             '-F', self.report_file,
@@ -56,7 +61,10 @@ class CrystalReport:
 
         try:
             print(f"Executing command: {' '.join(command)}")
-            result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = subprocess.run(command,
+                                    check=True,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE)
             print("Command executed successfully.")
             print(f"Output: {result.stdout.decode()}")
         except subprocess.CalledProcessError as e:
@@ -67,6 +75,8 @@ class CrystalReport:
     def find_and_move_file(report_format: str,
                            time_tolerance: Optional[int] = 5,
                            file_destination: Optional[str] = "reports"):
+        """Find files with the specified format and move them to
+         the specified directory if they are within the time"""
 
         def within_time_tolerance(_file_path: str) -> bool:
             now = datetime.now()
