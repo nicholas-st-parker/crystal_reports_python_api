@@ -17,8 +17,7 @@ print(CrystalReport('test_report.rpt',
                     username=username,
                     password=password,
                     report_format=report_format,
-                    parameters=parameters,
-                    create_log=True
+                    parameters=parameters
                     ).run_crystal_report())
 
 CrystalReport.find_and_move_file(report_format)

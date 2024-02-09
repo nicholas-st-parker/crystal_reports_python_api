@@ -9,13 +9,36 @@ from typing import List, Optional
 # Disable pylint warnings for too many arguments and too many instance attributes.
 # This is simply the amount of arguments that crystal reports ninja takes.
 class CrystalReport:  # pylint: disable=too-many-instance-attributes
-    """Class to run Crystal Reports via python subprocesses using Crystal Reports Ninja."""
+    """Class to run Crystal Reports via python subprocesses using Crystal Reports Ninja.
+
+    Attributes:
+        report_file (str): The path to the report file (.rpt) to be executed. Only required param.
+        output_filename (Optional[str]): The filename for the output file. If not provided,
+            the report's output will default to "[report_file]-[yyyymmddHHmmss].[report_format]".
+        report_format (Optional[str]): Intended file format to be exported.(i.e. pdf, doc, xls).
+            If you wish to print Crystal Reports to a printer, simply "-E print" instead of
+            specifying file format.
+        printer_name (Optional[str]): Name of the printer where the report should be printed.
+            Only relevant if printing the report directly.
+        num_copies (Optional[int]): The number of copies to print. Relevant only if printing.
+        server_name (Optional[str]): The database server for the report.
+            Often, this will be included in the .rpt file.
+        database_name (Optional[str]): The database name to use for the report. Again, often this
+            will be included in the .rpt file.
+        username (Optional[str]): The username for database access.
+        password (Optional[str]): The password for database access.
+        parameters (Optional[List[str]]): A list of parameters to pass to the report,
+            formatted as 'name:value'.
+        create_log (bool): Whether to create a log file. Defaults to False. Log will be placed in
+            the same directory as the CrystalReportsNinja.exe file.
+    """
+
     def __init__(self,  # pylint: disable=too-many-arguments
                  report_file: str,
                  output_filename: Optional[str] = None,
                  report_format: Optional[str] = None,
                  printer_name: Optional[str] = None,
-                 num_copies: Optional[int] = None,
+                 num_copies: Optional[str] = None,
                  server_name: Optional[str] = None,
                  database_name: Optional[str] = None,
                  username: Optional[str] = None,
@@ -51,7 +74,7 @@ class CrystalReport:  # pylint: disable=too-many-instance-attributes
             '-P': self.password,
         }
         for flag, value in optional_params.items():
-            if value:
+            if value is not None:
                 command.extend([flag, value])
         if self.parameters:
             for param in self.parameters:
@@ -89,4 +112,5 @@ class CrystalReport:  # pylint: disable=too-many-instance-attributes
             if file.endswith(report_format):
                 file_path = os.path.join(cwd, file)
                 if within_time_tolerance(file_path):
+                    os.makedirs(file_destination, exist_ok=True)
                     shutil.move(file_path, os.path.join(cwd, file_destination, file))
