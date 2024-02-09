@@ -1,5 +1,5 @@
 import os
-from report_generation import find_and_move_file
+from crystal_report import CrystalReport
 
 # This is company specific test data and the report used is not included.
 
@@ -12,4 +12,13 @@ parameters = [
     'Date: 2/6/2024'
 ]
 
-find_and_move_file(report_file, username, password, report_format, parameters)
+
+print(CrystalReport('test_report.rpt',
+                    username=username,
+                    password=password,
+                    report_format=report_format,
+                    parameters=parameters,
+                    create_log=True
+                    ).run_crystal_report())
+
+CrystalReport.find_and_move_file(report_format)
