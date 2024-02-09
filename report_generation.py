@@ -3,25 +3,16 @@ from datetime import datetime, timedelta
 import os
 import shutil
 
-report_file = 'test_report.rpt'
-username = os.getenv('JOBBOSS_UID')
-password = os.getenv('JOBBOSS_PWD')
-report_format = 'pdf'
-parameters = [
-    'Department: Mill',
-    'Date: 2/6/2024'
-]
-
 
 def run_crystal_report(_report_file, _username, _password, _report_format, _parameters):
     command = [
         r'.\CrystalReportsNinja.exe',  # Path to the executable
-        '-F', report_file,  # Report file
-        '-U', username,  # Username
-        '-P', password,  # Password
-        '-E', report_format  # Export format
+        '-F', _report_file,  # Report file
+        '-U', _username,  # Username
+        '-P', _password,  # Password
+        '-E', _report_format  # Export format
     ]
-    for param in parameters:
+    for param in _parameters:
         command.append('-a')
         command.append(param)
 
@@ -49,6 +40,3 @@ def find_and_move_file(_report_file, _username, _password, _report_format, _para
             file_path = os.path.join(cwd, file)
             if within_time_tolerance(file_path):
                 shutil.move(file_path, os.path.join(cwd, "reports", file))
-
-
-find_and_move_file(report_file, username, password, report_format, parameters)
